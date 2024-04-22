@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Information Page</title>
+</head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+
+<div class="container">
+    <h2>User Information Page</h2>
+
+    <a th:text="${memberName}">회원명</a>
+
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</div>
+</body>
+</html>

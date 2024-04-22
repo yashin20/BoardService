@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>createUser.html</title>
+</head>
+<body>
+    <header th:replace="~{fragments/header :: header}"></header>
+    <div class="container">
+        <h2>Create User Page</h2>
+
+        <form th:action="@{/member/new}" th:object="${CreateMemberDto}" method="post">
+            <div>
+                <label for="name">User Name:</label>
+                <input type="text" id="name" th:field="*{name}" required>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" th:field="*{password}" required>
+            </div>
+            <div>
+                <label for="passwordEqual">Password 확인:</label>
+                <input type="password" id="passwordEqual" th:field="*{passwordEqual}" required>
+            </div>
+            <div>
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" th:field="*{email}" required>
+            </div>
+            <div>
+                <button type="submit">생성</button>
+            </div>
+        </form>
+
+        <!-- 에러 메시지 표시 부분 -->
+        <div th:if="${createUserError}" style="color: red;">
+            <p th:text="${createUserError}"></p>
+        </div>
+
+
+        <div th:replace="~{fragments/footer :: footer}"></div>
+    </div>
+</body>
+</html>
