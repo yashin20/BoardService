@@ -27,12 +27,6 @@ public class WebSecurityConfig {
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(User.withUsername("user1").password("1234").build());
-        return manager;
-    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -51,7 +45,6 @@ public class WebSecurityConfig {
                                         .loginPage("/member/login")
                                         .loginProcessingUrl("/login")
                                         .defaultSuccessUrl("/", true)
-//                                .failureUrl("member/login?error=true")
                                         .permitAll()
                 )
                 .userDetailsService(customUserDetailsService)

@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.boardService.entity.Member;
+import project.boardService.entity.Role;
 import project.boardService.exception.DataNotFoundException;
 import project.boardService.repository.MemberRepository;
 
@@ -30,6 +31,7 @@ public class MemberService {
 
         member.setEmail(email);
         member.setCreateMemberDateTime(LocalDateTime.now());
+        member.setRole(Role.USER); //USER 권한 부여
         memberRepository.save(member);
         return member;
     }

@@ -27,20 +27,7 @@ public class MemberController {
         return "member/login";
     }
 
-    /*@PostMapping("/member/login")
-    public String login(@ModelAttribute("loginDto") LoginDto loginDto, BindingResult result, Model model) {
-
-        if (result.hasErrors()) {
-            return "member/login";
-        }
-
-        if (memberService.authenticate(loginDto.getName(), loginDto.getPassword())) {
-            return "redirect:/";
-        } else {
-            model.addAttribute("loginError", "--Invalid member name or password--");
-            return "member/login";
-        }
-    }*/
+    //로그인 관련 로직은 "/login" spring security 에게 이관한다.
 
     // Create New User
     @GetMapping("/member/new")
