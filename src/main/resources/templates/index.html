@@ -5,11 +5,30 @@
 </head>
 <body>
     <header th:replace="~{fragments/header :: header}"></header>
-    <div class="container">
-        <h2>메인 화면 입니다.</h2>
 
+    <h1>게시글 목록</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>조회수</th>
+        </tr>
+        </thead>
+        <tbody>
 
-        <div th:replace="~{fragments/footer :: footer}"></div>
-    </div>
+        <tr th:each="post : ${postList}">
+            <td th:text="${post.postId}">1</td>
+            <td>
+                <a th:href="@{|/post/${post.postId}|}" th:text="${post.title}">제목</a>
+            </td>
+            <td th:text="${post.writer}">작성자</td>
+            <td th:text="${post.view}">조회수</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

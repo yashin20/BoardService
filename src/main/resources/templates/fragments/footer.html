@@ -1,5 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
 <div class="footer" th:fragment="footer">
+
+    <div sec:authorize="isAuthenticated()">
+        <a th:href="@{/post/edit}"> 게시글 작성 </a>
+        <!--조회수 / 날짜순 정렬-->
+    </div>
+
     <p>&copy; Board Service</p>
 </div>

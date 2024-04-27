@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.boardService.entity.Member;
 import project.boardService.entity.Role;
+import project.boardService.exception.DataAlreadyExistsException;
 import project.boardService.exception.DataNotFoundException;
 import project.boardService.repository.MemberRepository;
 
@@ -23,6 +24,12 @@ public class MemberService {
     // 회원가입 기능
     @Transactional
     public Member createMember(String name, String password, String email) {
+
+        //이름 중복 체크
+        if (memberRepository.findByName(name).isPresent()){
+            throw new DataAlreadyExistsException("이미 존재하는 회원 이름입니다.");
+        }
+
         Member member = new Member();
         member.setName(name);
 
@@ -52,7 +59,7 @@ public class MemberService {
         if (findMember.isPresent()) {
             return findMember.get();
         } else {
-            throw new DataNotFoundException("user not found");
+            throw new DataNotFoundException("member not found");
         }
     }
 
@@ -63,7 +70,7 @@ public class MemberService {
         if (findMember.isPresent()) {
             return findMember.get();
         } else {
-            throw new DataNotFoundException("user not found");
+            throw new DataNotFoundException("member not found");
         }
     }
 

@@ -8,7 +8,7 @@
     <div class="container">
         <h2>Create User Page</h2>
 
-        <form th:action="@{/member/new}" th:object="${CreateMemberDto}" method="post">
+        <form th:action="@{/member/new}" th:object="${createMemberDto}" method="post">
             <div>
                 <label for="name">User Name:</label>
                 <input type="text" id="name" th:field="*{name}" required>
@@ -31,8 +31,8 @@
         </form>
 
         <!-- 에러 메시지 표시 부분 -->
-        <div th:if="${createUserError}" style="color: red;">
-            <p th:text="${createUserError}"></p>
+        <div th:if="${createMemberError}" style="color: red;">
+            <p th:text="${createMemberError}"></p>
         </div>
 
 

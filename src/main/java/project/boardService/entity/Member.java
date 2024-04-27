@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 public class Member {
 
     @Id @GeneratedValue
+    @Column(name = "member_id")
     private Long id;
 
     @Column(unique = true, nullable = false)

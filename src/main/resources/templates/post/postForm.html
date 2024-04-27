@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Board Service</title>
+</head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+
+    <h1 th:text="${post.title}">게시글 제목</h1>
+
+    <textarea th:text="${post.content}" readonly style="width: 100%; height: 200px;">게시글 내용</textarea>
+    <p th:text="${post.writerName}">작성자</p>
+
+    <p th:text="${post.view}">조회수</p>
+    <p th:text="${post.createdDateTime}">작성일자</p>
+    <p th:text="${post.modifiedDateTime}">수정일자</p>
+
+    <a th:href="@{'/post/' + ${post.postId} + '/update'}"> 게시글 수정 </a>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

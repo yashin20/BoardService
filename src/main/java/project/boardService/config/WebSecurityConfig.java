@@ -26,6 +26,8 @@ public class WebSecurityConfig {
 
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
+    @Autowired
+    private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
 
     @Bean
@@ -44,6 +46,7 @@ public class WebSecurityConfig {
                                         .passwordParameter("password")
                                         .loginPage("/member/login")
                                         .loginProcessingUrl("/login")
+                                        .failureHandler(customAuthenticationFailureHandler)
                                         .defaultSuccessUrl("/", true)
                                         .permitAll()
                 )

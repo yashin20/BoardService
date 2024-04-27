@@ -4,16 +4,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import project.boardService.dto.CreateMemberDto;
 import project.boardService.dto.LoginDto;
+import project.boardService.exception.DataAlreadyExistsException;
 import project.boardService.exception.DataNotFoundException;
 import project.boardService.service.MemberService;
 
 import java.security.Principal;
 
+@RequestMapping("/member")
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
@@ -21,7 +21,7 @@ public class MemberController {
     private final MemberService memberService;
 
     // User Login
-    @GetMapping("/member/login")
+    @GetMapping("/login")
     public String getLoginForm(Model model) {
         model.addAttribute("loginDto", new LoginDto());
         return "member/login";
@@ -30,13 +30,13 @@ public class MemberController {
     //로그인 관련 로직은 "/login" spring security 에게 이관한다.
 
     // Create New User
-    @GetMapping("/member/new")
+    @GetMapping("/new")
     public String createMemberForm(Model model) {
-        model.addAttribute("CreateMemberDto", new CreateMemberDto());
+        model.addAttribute("createMemberDto", new CreateMemberDto());
         return "member/createMember";
     }
 
-    @PostMapping("/member/new")
+    @PostMapping("/new")
     public String createUser(@ModelAttribute CreateMemberDto createMemberDto, Model model) {
 
         if (createMemberDto.getName().isEmpty() || createMemberDto.getEmail().isEmpty()) {
@@ -53,7 +53,7 @@ public class MemberController {
 
         try {
             memberService.createMember(createMemberDto.getName(), createMemberDto.getPassword(), createMemberDto.getEmail());
-        } catch (DataNotFoundException e) {
+        } catch (DataAlreadyExistsException e) {
             model.addAttribute("createMemberError", "이미 등록된 사용자 입니다.");
             System.out.println("이미 등록된 사용자 입니다.");
             return "member/createMember";
@@ -66,7 +66,7 @@ public class MemberController {
     }
 
     // User Information
-    @GetMapping("/member/private/info")
+    @GetMapping("/private/info")
     public String userInfo(Principal principal, Model model) {
         String memberName = principal.getName();
         model.addAttribute("memberName", memberName);

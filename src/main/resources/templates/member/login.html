@@ -23,6 +23,9 @@
             </div>
         </form>
 
+        <div th:if="${param.error}" style="color: red;">
+            <p th:text="${param.message}">Error message here</p>
+        </div>
 
         <div th:replace="~{fragments/footer :: footer}"></div>
     </div>
