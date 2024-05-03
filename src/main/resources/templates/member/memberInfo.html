@@ -9,7 +9,29 @@
 <div class="container">
     <h2>User Information Page</h2>
 
-    <a th:text="${memberName}">회원명</a>
+    <div>
+        <label>회원명 : </label>
+        <span th:text="${member.name}">회원명</span>
+    </div>
+
+    <div>
+        <label>E-mail : </label>
+        <span th:text="${member.email}">E-mail</span>
+    </div>
+
+    <div>
+        <label>가입일 : </label>
+        <span th:text="${member.createMemberDateTime}">가입일</span>
+    </div>
+
+
+    <h3> 작성 게시글 </h3>
+    <div th:each="post : ${postByMember}">
+        <p>
+            <strong>제목 : </strong>
+            <a th:href="@{/post/{postId}(postId=${post.id})}" th:text="${post.title}">게시글 제목</a><br>
+        </p>
+    </div>
 
     <div th:replace="~{fragments/footer :: footer}"></div>
 </div>

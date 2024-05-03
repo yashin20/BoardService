@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.boardService.dto.PostDto;
 import project.boardService.dto.PostListDto;
+import project.boardService.entity.Comment;
 import project.boardService.entity.Member;
 import project.boardService.entity.Post;
 import project.boardService.exception.DataNotFoundException;
@@ -33,6 +34,16 @@ public class PostService {
         }
 
         return postListDtoList;
+    }
+
+    //게시글 소속 댓글 검색
+    public List<Comment> getComment(Long postId) {
+        Optional<Post> post = postRepository.findPostById(postId);
+        if (post.isPresent()) {
+            return postRepository.findComments(post.get());
+        } else {
+            throw new DataNotFoundException("게시글을 찾을 수 없습니다.");
+        }
     }
 
 
@@ -94,6 +105,22 @@ public class PostService {
             return post;
         } else {
             throw new DataNotFoundException("post not found");
+        }
+    }
+
+    //Member's Post Search
+    public List<Post> findPostByMember(Long memberId) {
+        //1. Member 찾기(id 기반)
+        Optional<Member> findMember = memberRepository.findById(memberId);
+        if (findMember.isPresent()) {
+            List<Post> posts = postRepository.findPostByMember(findMember.get());
+            if (!posts.isEmpty()) {
+                return posts;
+            } else {
+                throw new DataNotFoundException(findMember.get().getName() + "이(가) 작성한 게시글이 없습니다.");
+            }
+        } else {
+            throw new DataNotFoundException("존재하지 않는 회원 입니다.");
         }
     }
 

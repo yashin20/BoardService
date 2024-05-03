@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import project.boardService.entity.Comment;
 import project.boardService.entity.Member;
 import project.boardService.entity.Post;
 import project.boardService.entity.Role;
@@ -71,7 +72,22 @@ public class InitMember {
             manager.setRole(Role.MANAGER);
             em.persist(manager);
 
-            for (int i = 1; i <= 50; i++) {
+            // comment test post
+            Post post1 = new Post();
+            post1.setTitle("comment test");
+            post1.setContent("this is comment test!");
+            post1.setWriter(member);
+            post1.setCreatedDateTime(LocalDateTime.now());
+            post1.setModifiedDateTime(LocalDateTime.now());
+            post1.setView(10);
+            em.persist(post1);
+
+            for (int i = 1; i <= 10; i++) {
+                Comment comment = new Comment(post1, member, "comment" + i);
+                em.persist(comment);
+            }
+
+            for (int i = 1; i <= 10; i++) {
                 Post post = new Post();
                 post.setTitle("Title" + i);
                 post.setContent("Content" + i);

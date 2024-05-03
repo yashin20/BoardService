@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <title>Board Service</title>
 </head>
@@ -17,6 +17,63 @@
 
     <a th:href="@{'/post/' + ${post.postId} + '/update'}"> 게시글 수정 </a>
 
+    <h3># Comment #</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>내용</th>
+            <th>작성자</th>
+            <th>수정</th>
+            <th>삭제</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="comment : ${comments}">
+            <td>#</td>
+            <td>
+                <span th:text="${comment.content}" th:id="'content-' + ${comment.id}">댓글내용</span>
+
+                <!--댓글 수정을 위한 <textarea> / <button>-->
+                <textarea th:id="'textarea-' + ${comment.id}" style="display:none;" required></textarea>
+                <button th:id="'submit-' + ${comment.id}" style="display:none;" type="button">게시</button>
+            </td>
+            <td th:text="${comment.member.name}">작성자</td>
+            <td> <!--수정 버튼-->
+                <button th:if="${comment.member.name} == ${#authentication.name}"
+                        class="update-comment"
+                        th:attr="data-id=${comment.id}">수정</button>
+            </td>
+            <td> <!--삭제 버튼-->
+                <button th:if="${comment.member.name} == ${#authentication.name}"
+                        class="delete-comment"
+                        th:attr="data-id=${comment.id}">삭제</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <h4>댓글 작성 Form</h4>
+    <form th:action="@{'/post/' + ${post.postId}}" th:object="${createCommentDto}" method="post">
+
+        <div>
+            작성자 : <span sec:authentication="name">User</span>
+        </div>
+        <div>
+            <label for="content">Content:</label>
+            <textarea id="content" th:field="*{content}" required></textarea>
+        </div>
+        <div>
+            <button type="submit">게시</button>
+        </div>
+
+    </form>
+
+
 <div th:replace="~{fragments/footer :: footer}"></div>
+
+<script th:src="@{/comment.js}"></script>
 </body>
 </html>

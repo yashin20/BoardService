@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -27,6 +29,11 @@ public class Post {
 
     private LocalDateTime createdDateTime; //작성일자
     private LocalDateTime modifiedDateTime; //수정일자
+
+    // 게시글 삭제 시 - 해당 게시글의 댓글도 삭제
+    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OrderBy("id asc")
+    private List<Comment> comments = new ArrayList<>();
 
 
     //생성자

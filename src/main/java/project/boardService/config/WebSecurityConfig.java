@@ -36,8 +36,9 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests((authorizeRequests) ->
                         authorizeRequests
-                                .requestMatchers("/", "/member/login", "/member/new").permitAll()
+                                .requestMatchers("/", "/member/login", "/member/new", "/post/**").permitAll()
                                 .requestMatchers("/member/private/**").authenticated()
+                                .requestMatchers("/api/comments/**").authenticated()
                                 .anyRequest().authenticated()
                 )
                 .formLogin((form) ->
@@ -58,7 +59,12 @@ public class WebSecurityConfig {
                                 .invalidateHttpSession(true)
                                 .deleteCookies("JSESSIONID")
                                 .permitAll()
-                );
+                )
+                .csrf(csrf ->
+                        csrf
+                                .ignoringRequestMatchers("/api/**") // /api/** 경로에 대한 CSRF 보호를 비활성화
+                )
+        ;
 
         return http.build();
     }

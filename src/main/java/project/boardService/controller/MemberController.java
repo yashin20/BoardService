@@ -7,11 +7,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import project.boardService.dto.CreateMemberDto;
 import project.boardService.dto.LoginDto;
+import project.boardService.entity.Member;
+import project.boardService.entity.Post;
 import project.boardService.exception.DataAlreadyExistsException;
 import project.boardService.exception.DataNotFoundException;
 import project.boardService.service.MemberService;
+import project.boardService.service.PostService;
 
 import java.security.Principal;
+import java.util.List;
 
 @RequestMapping("/member")
 @Controller
@@ -19,6 +23,7 @@ import java.security.Principal;
 public class MemberController {
 
     private final MemberService memberService;
+    private final PostService postService;
 
     // User Login
     @GetMapping("/login")
@@ -69,7 +74,14 @@ public class MemberController {
     @GetMapping("/private/info")
     public String userInfo(Principal principal, Model model) {
         String memberName = principal.getName();
-        model.addAttribute("memberName", memberName);
+        //로그인한 회원 객체
+        Member findMember = memberService.findMemberByName(memberName);
+        model.addAttribute("member", findMember);// 회원
+
+        //회원이 작성한 게시글
+        List<Post> postByMember = postService.findPostByMember(findMember.getId());
+        model.addAttribute("postByMember", postByMember);
+
         return "member/memberInfo";
     }
 }
