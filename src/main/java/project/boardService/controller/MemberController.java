@@ -82,6 +82,10 @@ public class MemberController {
         List<Post> postByMember = postService.findPostByMember(findMember.getId());
         model.addAttribute("postByMember", postByMember);
 
+        if (postByMember.isEmpty()) {
+            model.addAttribute("noPostsMessage", "작성한 게시글이 없습니다.");
+        }
+
         return "member/memberInfo";
     }
 }

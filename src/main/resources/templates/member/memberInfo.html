@@ -32,8 +32,19 @@
             <a th:href="@{/post/{postId}(postId=${post.id})}" th:text="${post.title}">게시글 제목</a><br>
         </p>
     </div>
+<!--    작성한 게시글이 없는 경우 메시지-->
+    <div th:if="${#lists.isEmpty(postByMember)}" th:text="${noPostsMessage}"></div>
+
+
+    <div>
+        <button class="delete-member"
+                th:attr="data-id=${member.id}">회원 탈퇴</button>
+    </div>
+
 
     <div th:replace="~{fragments/footer :: footer}"></div>
 </div>
+
+<script th:src="@{/memberInfo.js}"></script>
 </body>
 </html>

@@ -25,7 +25,8 @@ public class Post {
     @JoinColumn(name = "member_id")
     private Member writer; //작성자
 
-    private Integer view; //조회수
+    @Column(nullable = false)
+    private Integer view = 0; //조회수 - 기본값 : 0 설정
 
     private LocalDateTime createdDateTime; //작성일자
     private LocalDateTime modifiedDateTime; //수정일자
@@ -44,7 +45,6 @@ public class Post {
 
         this.createdDateTime = LocalDateTime.now(); //작성일자 설정
         this.modifiedDateTime = LocalDateTime.now(); //마지막 수정일자 설정
-        this.view = 0;
     }
 
     //수정일자 업데이트
@@ -52,8 +52,5 @@ public class Post {
         this.modifiedDateTime = LocalDateTime.now(); //수정일자 업데이트
     }
 
-    //조회수 업데이트
-    public void viewUpdate() {
-        this.view += 1;
-    }
+
 }

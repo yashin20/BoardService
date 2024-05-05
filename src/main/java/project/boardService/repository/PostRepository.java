@@ -54,4 +54,12 @@ public class PostRepository {
         return post.getComments();
     }
 
+
+    // Post.view 1 증가
+    public void incrementViewCount(Long postId) {
+        em.createQuery("update Post p set p.view = p.view + 1 where p.id = :id")
+                .setParameter("id", postId)
+                .executeUpdate();
+    }
+
 }

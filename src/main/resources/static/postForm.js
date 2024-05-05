@@ -75,4 +75,30 @@ document.addEventListener("DOMContentLoaded", function() {
 
         })
     });
+
+    const deletePostButton = document.querySelectorAll(".delete-post");
+
+    deletePostButton.forEach(button => {
+        button.addEventListener("click", function () {
+            const postId = this.getAttribute("data-id");
+
+            if (confirm("삭제하시겠습니까?")){
+                fetch(`/api/posts/${postId}`, {
+                    method: 'DELETE',
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert("게시글이 삭제되었습니다.");
+                            window.location.href = "/"; // 리다이렉트
+                        } else {
+                            alert("게시글 삭제에 실패했습니다.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert("게시글 삭제 중 문제가 발생");
+                    });
+            }
+        })
+    })
 });

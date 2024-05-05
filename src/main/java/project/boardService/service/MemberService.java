@@ -1,6 +1,7 @@
 package project.boardService.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,6 +9,7 @@ import project.boardService.entity.Member;
 import project.boardService.entity.Role;
 import project.boardService.exception.DataAlreadyExistsException;
 import project.boardService.exception.DataNotFoundException;
+import project.boardService.exception.UnauthorizedAccessException;
 import project.boardService.repository.MemberRepository;
 
 import java.time.LocalDateTime;
@@ -72,6 +74,35 @@ public class MemberService {
         } else {
             throw new DataNotFoundException("member not found");
         }
+    }
+
+
+    /**
+     * 회원 삭제 기능
+     * @param memberId : 삭제 회원 ID
+     * @return : 삭제 회원 ID
+     */
+    @Transactional
+    public Long deleteMember(Long memberId) {
+        //1. 삭제 대상 찾기
+        Optional<Member> findMember = memberRepository.findById(memberId);
+
+        //*예외처리 : member optional
+        if (!findMember.isPresent()) {
+            throw new DataNotFoundException("회원을 찾을 수 없습니다.");
+        }
+
+        Member member = findMember.get();
+        //로그인된 사용자명
+        String loggedName = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        //*예외처리 : 삭제 회원 == 로그인 회원
+        if (!member.getName().equals(loggedName)) {
+            throw new UnauthorizedAccessException("접근 권한이 없습니다.");
+        }
+
+        memberRepository.delete(member);
+        return memberId;
     }
 
 

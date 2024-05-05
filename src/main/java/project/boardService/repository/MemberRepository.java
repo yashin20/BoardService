@@ -31,4 +31,9 @@ public class MemberRepository {
                 .getResultList();
         return findMembers.stream().findFirst();
     }
+
+    //삭제 로직
+    public void delete(Member member) {
+        em.remove(member);
+    }
 }

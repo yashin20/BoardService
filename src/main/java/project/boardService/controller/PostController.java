@@ -109,11 +109,13 @@ public class PostController {
         return "post/updatePost";
     }
 
+    //게시글 수정
     @PostMapping("/{postId}/update")
     public String updatePost(@PathVariable Long postId, @ModelAttribute PostDto postDto) {
         postService.updatePost(postId, postDto.getTitle(), postDto.getContent());
         return "redirect:/";
     }
 
-    //delete (게시글 삭제)
+
+    //게시글 삭제 - API 로 구현
 }

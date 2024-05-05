@@ -5,12 +5,16 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Getter @Setter
+@Getter
+@Setter
 public class Member {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "member_id")
     private Long id;
 
@@ -25,4 +29,8 @@ public class Member {
     private Role role; //회원 권한
 
     private LocalDateTime createMemberDateTime; //회원가입 일자
+
+    //회원(Member) 삭제 시, 작성한 Post 도 삭제
+    @OneToMany(mappedBy = "writer", cascade = CascadeType.REMOVE)
+    private List<Post> posts = new ArrayList<>();
 }
