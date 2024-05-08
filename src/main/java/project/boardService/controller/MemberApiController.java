@@ -20,6 +20,7 @@ public class MemberApiController {
 
     private final MemberService memberService;
 
+
     /**
      * 회원 삭제(탈퇴) API
      * @param memberId : 삭제 회원 ID
